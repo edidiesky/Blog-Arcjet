@@ -21,7 +21,7 @@ const BlogData = [
     id: 44547484984,
     title: "Eco-Friendly Home Renovations: Reduce Your Carbon Footprint",
     shortDescription:
-      "Discover innovative ways to make your home more eco-friendly during renovations. From sustainable materials to energy-efficient upgrades, we've got you covered.",
+      "Discover innovative ways to make your home more eco-friendly during renovations. From sustainable materials to energy-efficient upgrades, we&apos;ve got you covered.",
     author: "Michael Johnson",
     createdAt: "March 28, 2023",
   },
@@ -45,7 +45,7 @@ const CommentData = [
   {
     id: 44547484984,
     shortDescription:
-      "From sustainable materials to energy-efficient upgrades, we've got you covered.",
+      "From sustainable materials to energy-efficient upgrades, we&apos;ve got you covered.",
     author: "Michael Johnson",
     createdAt: "March 28, 2023",
   },
@@ -153,7 +153,7 @@ const MainContent = () => {
                   <span>May 1, 2023</span>
                 </h5>
                 <p className="text-lg font-semibold">
-                  In this blog post, we'll explore practical ways to incorporate
+                  In this blog post, we&apos;ll explore practical ways to incorporate
                   sustainable practices into your daily life, from reducing
                   waste to adopting eco-friendly habits. Join us on this journey
                   towards a more sustainable future.
@@ -225,7 +225,7 @@ const MainContent = () => {
                     <span>May 1, 2023</span>
                   </h5>
                   <p className="text-lg font-semibold">
-                    In this blog post, we'll explore practical ways to
+                    In this blog post, we&apos;ll explore practical ways to
                     incorporate sustainable practices into your daily life, from
                     reducing waste to adopting eco-friendly habits. Join us on
                     this journey towards a more sustainable future.
