@@ -1,3 +1,4 @@
+import Navbar from "@/components/loader/common/Navbar";
 import "./globals.css";
 import ToasterProvider from "./providers/ToasterProvider";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -12,6 +13,7 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body>
         <ToasterProvider />
+        <Navbar />
         {children}
       </body>
     </html>

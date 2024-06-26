@@ -1,10 +1,11 @@
 import Head from "next/head";
 import HomeIndex from "./_components";
-import Navbar from "@/components/loader/common/Navbar";
+import getCurrentUserSession from "../actions/getCurrentUser";
 export default async function Root() {
+    const session = await getCurrentUserSession();
+    console.log(session);
   return (
     <div className="relative">
-      <Navbar/>
       <HomeIndex/>
     </div>
   );

@@ -70,8 +70,8 @@ const MainContent = () => {
       {/* {loading && <Loader />} */}
       <div className="w-full flex flex-col gap-8">
         <div className="w-full flex items-center justify-center bg-[#F3F4F6] py-24">
-          <div className="w-[90%] md:w-[700px] max-w-custom_1 flex flex-col items-start gap-4 justify-center mx-auto">
-            <h3 className="text-3xl md:text-4xl font-bold">
+          <div className="w-[90%] lg:w-[700px] max-w-custom_1 flex flex-col items-start gap-4 justify-center mx-auto">
+            <h3 className="text-3xl lg:text-4xl font-bold">
               Subscribe to our Newsletter
               <span className="block font-normal text-lg text-grey">
                 Get the latest updates and news form Envitab Blog
@@ -79,10 +79,10 @@ const MainContent = () => {
             </h3>
             <form
               action=""
-              className="w-full flex md:flex-row flex-col justify-center items-center gap-4"
+              className="w-full flex lg:flex-row flex-col justify-center items-center gap-4"
             >
               <input type="text" className="input text-lg w-full" />
-              <button className="btn w-full md:w-fit py-3 rounded-[10px] px-6 text-lg font-bold text-white">
+              <button className="btn w-full lg:w-fit py-3 rounded-[10px] px-6 text-lg font-bold text-white">
                 Subscribe
               </button>
             </form>
@@ -90,8 +90,8 @@ const MainContent = () => {
         </div>
         {/* subscription section */}
         {/* <div className="w-full flex items-center justify-center bg-[#fff] py-12">
-          <div className="w-[90%] md:w-[700px] max-w-custom_1 flex flex-col items-start gap-4 justify-center mx-auto">
-            <h3 className="text-3xl md:text-4xl font-bold">
+          <div className="w-[90%] lg:w-[700px] max-w-custom_1 flex flex-col items-start gap-4 justify-center mx-auto">
+            <h3 className="text-3xl lg:text-4xl font-bold">
               Your Account
               <span className="block font-normal text-lg text-grey">
                 Manage your subscription details.
@@ -108,19 +108,19 @@ const MainContent = () => {
         {/* single post */}
         <div className="w-full flex items-center justify-center bg-[#fff] py-12">
           <div className="w-[90%] max-w-custom_1 flex flex-col items-start gap-4 justify-center mx-auto">
-            <div className="w-full flex flex-col md:flex-row md:items-center gap-8">
+            <div className="w-full flex flex-col lg:flex-row lg:items-center gap-8">
               <div className="w-full">
                 <img
                   src="https://generated.vusercontent.net/placeholder.svg"
                   alt=""
-                  className="object-cover h-[300px] md:h-[430px] w-full"
+                  className="object-cover h-[300px] lg:h-[430px] w-full"
                 />
               </div>
               <div className="flex w-full flex-col gap-6">
                 <h5 className="text-lg text-[#3B82F6] flex items-center gap-2 font-bold">
                   Latest Post
                 </h5>
-                <h3 className="text-3xl md:text-5xl font-bold">
+                <h3 className="text-3xl lg:text-5xl font-bold">
                   Sustainable Living: Tips for a Greener Lifestyle
                 </h3>
                 <h5 className="text-lg flex items-center gap-4 font-semibold">
@@ -147,7 +147,7 @@ const MainContent = () => {
 
         {/* posts */}
         <div className="w-full flex items-center justify-center bg-[#fff] py-12">
-          <div className="w-[90%] max-w-custom_1 grid md:grid-cols-3 gap-8 justify-center mx-auto">
+          <div className="w-[90%] max-w-custom_1 grid lg:grid-cols-3 gap-8 justify-center mx-auto">
             {BlogData?.slice(0, 3)?.map((blog, index) => {
               return (
                 <Link
@@ -195,7 +195,7 @@ const MainContent = () => {
               </div>
               <div className="flex w-full p-8 flex-col gap-8">
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-3xl md:text-5xl font-bold">
+                  <h3 className="text-3xl lg:text-5xl font-bold">
                     Sustainable Living: Tips for a Greener Lifestyle
                   </h3>
                   <h5 className="text-lg flex items-center gap-4 font-semibold">
@@ -257,7 +257,7 @@ const MainContent = () => {
                   {/* single posts */}
                   <div className="flex w-full flex-col gap-4">
                     <h4 className="text-2xl font-bold">Leave a Comment</h4>
-                    <form className="w-full md:w-[400px] flex flex-col gap-4">
+                    <form className="w-full lg:w-[400px] flex flex-col gap-4">
                       <label
                         htmlFor="name"
                         className="text-lg flex flex-col gap-4 font-semibold"
@@ -294,7 +294,7 @@ const MainContent = () => {
                   {/* comment lisiting */}
                   <div className="flex w-full py-8 flex-col gap-4">
                     <h4 className="text-4xl font-bold">Comments</h4>
-                    <div className="w-full md:w-[600px] flex flex-col gap-4">
+                    <div className="w-full lg:w-[600px] flex flex-col gap-4">
                       {CommentData?.map((data, index) => {
                         return (
                           <div key={index} className="flex items-center gap-4">

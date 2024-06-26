@@ -4,7 +4,6 @@ import Navbar from "@/components/loader/common/Navbar";
 export default async function Root({ params }) {
   return (
     <div className="relative">
-      <Navbar />
       <HomeIndex blogid={params?.id} />
     </div>
   );

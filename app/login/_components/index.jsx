@@ -1,35 +1,27 @@
 "use client";
-import React, { useState, useCallback } from "react";
-import Image from "next/image";
-import { BlogData } from "@/utils/data/blogdata";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useState } from "react";
+import toast from "react-hot-toast";
+const MainContent = () => {
+  // const { data: session } = useSession();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-const CommentData = [
-  {
-    id: 4565483929237,
-    shortDescription:
-      " Discover the benefits of sustainable gardening and tips to get started.",
-    author: "Jane Smith",
-    createdAt: "April 15, 2023",
-  },
-  {
-    id: 44547484984,
-    shortDescription:
-      "From sustainable materials to energy-efficient upgrades, we've got you covered.",
-    author: "Michael Johnson",
-    createdAt: "March 28, 2023",
-  },
-  {
-    id: 4745644647884,
-    shortDescription:
-      "Your choices when it comes to your wardrobe. Reduce waste and support ethical brands.",
-    author: "Sarah Lee",
-    createdAt: "February 10, 2023",
-  },
-];
-const MainContent = ({ blogid }) => {
-  // console.log(blogid);
-  const blog = BlogData?.find((blog) => blog.id === blogid);
-  // console.log(blog);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const result = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
+    if (!result.error) {
+      // Handle successful login
+      toast.success("Login process succesfully");
+    } else {
+      toast.error(result.error);
+      // Handle error
+    }
+  };
 
   return (
     <div className="flex flex-col relative w-full gap-4">
@@ -52,17 +44,30 @@ const MainContent = ({ blogid }) => {
                   className="text-base flex flex-col gap-4 font-semibold"
                 >
                   Email
-                  <input type="email" className="input" />
+                  <input
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    name="email"
+                    type="email"
+                    className="input"
+                  />
                 </label>
                 <label
                   htmlFor="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  name="password"
                   className="text-base flex flex-col gap-4 font-semibold"
                 >
                   Password
                   <input type="password" className="input" />
                 </label>
                 <div className="flex pt-4">
-                  <button className="btn py-3 px-8 rounded-xl text-white text-lg">
+                  <button
+                    type="submit"
+                    onClick={handleSubmit}
+                    className="btn py-3 px-8 rounded-xl text-white text-lg"
+                  >
                     Submit
                   </button>
                 </div>
