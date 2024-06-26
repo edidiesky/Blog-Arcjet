@@ -8,32 +8,7 @@ import { BiChevronRight } from "react-icons/bi";
 import { CldUploadWidget } from "next-cloudinary";
 import toast from "react-hot-toast";
 import Loader from "@/components/loader";
-const BlogData = [
-  {
-    id: 4565483929237,
-    title: "Sustainable Gardening: Grow Your Own Produce",
-    shortDescription:
-      "Learn how to create a thriving garden and grow your own fresh produce at home. Discover the benefits of sustainable gardening and tips to get started.",
-    author: "Jane Smith",
-    createdAt: "April 15, 2023",
-  },
-  {
-    id: 44547484984,
-    title: "Eco-Friendly Home Renovations: Reduce Your Carbon Footprint",
-    shortDescription:
-      "Discover innovative ways to make your home more eco-friendly during renovations. From sustainable materials to energy-efficient upgrades, we&apos;ve got you covered.",
-    author: "Michael Johnson",
-    createdAt: "March 28, 2023",
-  },
-  {
-    id: 4745644647884,
-    title: "Sustainable Fashion: Reducing Waste in the Clothing Industry",
-    shortDescription:
-      "Explore the world of sustainable fashion and learn how you can make more eco-friendly choices when it comes to your wardrobe. Reduce waste and support ethical brands.",
-    author: "Sarah Lee",
-    createdAt: "February 10, 2023",
-  },
-];
+import { BlogData } from "@/utils/data/blogdata";
 const CommentData = [
   {
     id: 4565483929237,
@@ -153,15 +128,18 @@ const MainContent = () => {
                   <span>May 1, 2023</span>
                 </h5>
                 <p className="text-lg font-semibold">
-                  In this blog post, we&apos;ll explore practical ways to incorporate
-                  sustainable practices into your daily life, from reducing
-                  waste to adopting eco-friendly habits. Join us on this journey
-                  towards a more sustainable future.
+                  In this blog post, we&apos;ll explore practical ways to
+                  incorporate sustainable practices into your daily life, from
+                  reducing waste to adopting eco-friendly habits. Join us on
+                  this journey towards a more sustainable future.
                 </p>
                 {/* 8BC9F6 */}
-                <h5 className="text-lg text-[#3B82F6] flex items-center gap-2 font-bold">
+                <Link
+                  href={`/blog/${BlogData[0].id}`}
+                  className="text-lg text-[#3B82F6] flex items-center gap-2 font-bold"
+                >
                   Read More <BiChevronRight fontSize={"20px"} />
-                </h5>
+                </Link>
               </div>
             </div>
           </div>
@@ -170,7 +148,7 @@ const MainContent = () => {
         {/* posts */}
         <div className="w-full flex items-center justify-center bg-[#fff] py-12">
           <div className="w-[90%] max-w-custom_1 grid md:grid-cols-3 gap-8 justify-center mx-auto">
-            {BlogData?.map((blog, index) => {
+            {BlogData?.slice(0, 3)?.map((blog, index) => {
               return (
                 <Link
                   href={`/blog/${blog?.id}`}
