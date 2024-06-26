@@ -69,7 +69,7 @@ const MainContent = () => {
     <div className="flex flex-col relative w-full gap-4">
       {/* {loading && <Loader />} */}
       <div className="w-full flex flex-col gap-8">
-        <div className="w-full flex items-center justify-center bg-[#F3F4F6] py-24">
+        <div className="w-full z-20 flex items-center justify-center bg-[#F3F4F6] py-24">
           <div className="w-[90%] lg:w-[700px] max-w-custom_1 flex flex-col items-start gap-4 justify-center mx-auto">
             <h3 className="text-3xl lg:text-4xl font-bold">
               Subscribe to our Newsletter

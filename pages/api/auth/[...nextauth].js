@@ -1,8 +1,9 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
@@ -20,53 +21,39 @@ export const nextauthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // Validate if credentials are provided
         if (!credentials?.password || !credentials?.email) {
-          throw new Error("Invalid credentials provided");
+          throw new Error("Invalid Credentials being provided");
         }
-
-        // Fetch user from Prisma based on email
         const user = await prisma.user.findUnique({
           where: {
-            email: credentials.email,
+            email: credentials?.email,
           },
         });
 
-        // Handle case where user doesn't exist
-        if (!user || !user.hashedPassword) {
-          throw new Error("Invalid credentials provided");
+        if (!user || !user?.hashedPassword) {
+          throw new Error("Invalid Credentials being provided");
         }
 
-        // Compare hashed password
         const isCorrectPassword = await bcrypt.compare(
           credentials.password,
           user.hashedPassword
         );
 
-        // Handle incorrect password
         if (!isCorrectPassword) {
-          throw new Error("Incorrect password provided");
+          throw new Error("An incorrect password has being provided");
         }
-
-        // Return the user if everything is correct
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          image: user.image,
-          role: user.role,
-        };
+        return user;
       },
     }),
   ],
   pages: {
-    signIn: "/", // Customize sign-in page
+    signIn: "/",
   },
   session: {
-    strategy: "jwt", // Use JWT for session management
+    strategy: "jwt",
   },
-  adapter: PrismaAdapter(prisma), // Attach Prisma adapter
-  secret: process.env.NEXT_AUTH_SECRET, // Secret for JWT
+  adapter: PrismaAdapter(prisma),
+  secret: process.env.NEXT_AUTH_SECRET,
 };
 
 export default NextAuth(nextauthOptions);

@@ -2,6 +2,7 @@ import Navbar from "@/components/loader/common/Navbar";
 import "./globals.css";
 import ToasterProvider from "./providers/ToasterProvider";
 import "react-loading-skeleton/dist/skeleton.css";
+import { auth, signIn } from "@/auth";
 export const metadata = {
   title: "Envitab Blog",
   description:
@@ -9,11 +10,13 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
+    const session = await auth();
+    // console.log(session.user);
   return (
     <html lang="en">
       <body>
         <ToasterProvider />
-        <Navbar />
+        <Navbar user={session?.user} />
         {children}
       </body>
     </html>
