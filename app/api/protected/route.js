@@ -43,17 +43,17 @@
 // }
 
 
-// app/api/protected/route.js
-import { getServerSession } from 'next-auth/next';
-import arcjetAuth from '@/middleware/arcjetAuth';
-import { authOptions } from '../auth/[...nextauth]/route';
-export async function GET(req, res) {
-  await arcjetAuth(req, res, async () => {
-    const session = await getServerSession(req, res, authOptions);
-    if (!session) {
-      return res.status(401).json({ message: 'Not authenticated' });
-    }
+// // app/api/protected/route.js
+// import { getServerSession } from 'next-auth/next';
+// import arcjetAuth from '@/middleware/arcjetAuth';
+// import { authOptions } from '../auth/[...nextauth]/route.jsx';
+// export async function GET(req, res) {
+//   await arcjetAuth(req, res, async () => {
+//     const session = await getServerSession(req, res, authOptions);
+//     if (!session) {
+//       return res.status(401).json({ message: 'Not authenticated' });
+//     }
 
-    res.status(200).json({ message: 'Protected content' });
-  });
-}
+//     res.status(200).json({ message: 'Protected content' });
+//   });
+// }
