@@ -9,6 +9,7 @@ import { CldUploadWidget } from "next-cloudinary";
 import toast from "react-hot-toast";
 import Loader from "@/components/loader";
 import { BlogData } from "@/utils/data/blogdata";
+import Post from "./Post";
 const CommentData = [
   {
     id: 4565483929237,
@@ -113,7 +114,7 @@ const MainContent = () => {
                 <img
                   src="https://generated.vusercontent.net/placeholder.svg"
                   alt=""
-                  className="object-cover h-[300px] lg:h-[430px] w-full"
+                  className="object-cover h-[200px] lg:h-[430px] w-full"
                 />
               </div>
               <div className="flex w-full flex-col gap-6">
@@ -148,6 +149,7 @@ const MainContent = () => {
         {/* posts */}
         <div className="w-full flex items-center justify-center bg-[#fff] py-12">
           <div className="w-[90%] max-w-custom_1 grid lg:grid-cols-3 gap-8 justify-center mx-auto">
+           <Post/>
             {BlogData?.slice(0, 3)?.map((blog, index) => {
               return (
                 <Link
@@ -159,12 +161,12 @@ const MainContent = () => {
                     <img
                       src="https://generated.vusercontent.net/placeholder.svg"
                       alt=""
-                      className="object-cover h-[250px] w-full"
+                      className="object-cover h-[200px] md:h-[250px] w-full"
                     />
                   </div>
-                  <div className="flex p-8 w-full flex-col gap-6">
+                  <div className="flex p-4 md:p-8 w-full flex-col gap-6">
                     <h3 className="text-2xl font-bold">{blog?.title}</h3>
-                    <h5 className="text-base flex items-center gap-4 font-semibold">
+                    <h5 className="text-sm md:text-base flex items-center gap-3 md:gap-4 font-semibold">
                       <span>by {blog?.author} </span>
                       <span>{blog?.createdAt}</span>
                     </h5>
@@ -193,7 +195,7 @@ const MainContent = () => {
                   className="object-cover h-[430px] w-full"
                 />
               </div>
-              <div className="flex w-full p-8 flex-col gap-8">
+              <div className="flex w-full p-4 md:p-8 flex-col gap-8">
                 <div className="flex flex-col gap-4">
                   <h3 className="text-3xl lg:text-5xl font-bold">
                     Sustainable Living: Tips for a Greener Lifestyle

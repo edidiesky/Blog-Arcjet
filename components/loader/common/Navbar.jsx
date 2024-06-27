@@ -4,6 +4,8 @@ import Image from "next/image";
 import axios from "axios";
 import Link from "next/link";
 import LoginBtn from "./Login";
+import { signOut } from "@/auth";
+// import { signOut } from "next-auth/react";
 const Navbar = async ({ user }) => {
   // console.log(user);
   const linkData = [
@@ -39,12 +41,12 @@ const Navbar = async ({ user }) => {
         <Link href={"/"} className="text-xl font-semibold text-white">
           Envita Blog
         </Link>
-        <ul className="hidden md:flex items-center justify-end gap-8">
+        <ul className="flex items-center justify-end gap-8">
           {linkData?.map((data, index) => {
             return (
               <Link
                 key={index}
-                className="text-base text-grey font-semibold hover:text-white"
+                className="text-base hidden md:flex text-grey font-semibold hover:text-white"
                 href={`/${data?.path}`}
               >
                 {data?.text}
@@ -68,17 +70,30 @@ const Navbar = async ({ user }) => {
             ) : (
               <LoginBtn />
             )}
-            <div
-              style={{ transition: "all .4s" }}
-              className="w-[130px] bg-white shadow-lg z-[348858585] absolute group-hover:flex top-[100%] hidden flex-col"
-            >
-              <span className="block bg-white border-b hover:bg-[#fafafa] cursor-pointer font-bold p-4 text-sm">
-                Blog
-              </span>
-              <span className="block bg-white border-b hover:bg-[#fafafa] cursor-pointer font-bold p-4 text-sm">
-                Log Out
-              </span>
-            </div>
+            {user && (
+              <div
+                style={{ transition: "all .4s" }}
+                className="w-[130px] bg-white shadow-lg z-[348858585] absolute group-hover:flex top-[100%] hidden flex-col"
+              >
+                <span className="block bg-white border-b w-full hover:bg-[#fafafa] cursor-pointer font-bold p-4 text-sm">
+                  Blog
+                </span>
+                <form
+                  className="w-full"
+                  action={async () => {
+                    "use server";
+                    await signOut();
+                  }}
+                >
+                  <button
+                    type="submit"
+                    className="block w-full text-start bg-white border-b hover:bg-[#fafafa] cursor-pointer font-bold p-4 text-sm"
+                  >
+                    Log Out
+                  </button>
+                </form>
+              </div>
+            )}
           </div>
         </ul>
       </div>

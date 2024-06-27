@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+import {withContentlayer} from 'next-contentlayer'
 const nextConfig = {
   images: {
     domains: ["res.cloudinary.com", "generated.vusercontent.net/"],
@@ -24,4 +25,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withContentlayer(nextConfig);
