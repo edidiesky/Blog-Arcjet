@@ -1,7 +1,5 @@
-// import { nextauthOptions } from "@/pages/api/auth/[...nextauth]";
-import { auth } from "@/auth";
-import prisma from "@/prisma";
 
+import { auth } from "@/auth";
 export default async function getCurrentUserSession() {
   try {
        const session = await auth();
