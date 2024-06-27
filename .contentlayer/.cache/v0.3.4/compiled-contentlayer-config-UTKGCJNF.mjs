@@ -1,6 +1,6 @@
+// contentlayer.config.js
 import { defineDocumentType, makeSource } from "contentlayer/source-files";
-
-const Post = defineDocumentType(() => ({
+var Post = defineDocumentType(() => ({
   name: "Post",
   filePathPattern: `**/*.mdx`,
   contentType: "mdx",
@@ -8,23 +8,26 @@ const Post = defineDocumentType(() => ({
     title: {
       type: "string",
       description: "The title of the post",
-      required: true,
+      required: true
     },
     description: { type: "string" },
     image: { type: "string" },
     author: { type: "string" },
     publishAt: { type: "date" },
-    updatedAt: { type: "date" },
+    updatedAt: { type: "date" }
   },
   computedFields: {
     url_path: {
       type: "string",
-      resolve: (doc) => doc._raw.flattenedPath.replace(/pages\/?/, ""),
-    },
-  },
+      resolve: (doc) => doc._raw.flattenedPath.replace(/pages\/?/, "")
+    }
+  }
 }));
-
-export default makeSource({
+var contentlayer_config_default = makeSource({
   contentDirPath: "posts",
-  documentTypes: [Post],
+  documentTypes: [Post]
 });
+export {
+  contentlayer_config_default as default
+};
+//# sourceMappingURL=compiled-contentlayer-config-UTKGCJNF.mjs.map

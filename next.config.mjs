@@ -5,14 +5,16 @@ const nextConfig = {
     domains: ["res.cloudinary.com", "generated.vusercontent.net/"],
     formats: ["image/avif", "image/webp"],
   },
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    config.plugins.push(
-      new webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery",
-        "window.jQuery": "jquery",
-      })
-    );
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.mdx$/,
+      use: [
+        {
+          loader: "next-mdx-remote/loader",
+        },
+      ],
+    });
+
     return config;
   },
   compiler: {
