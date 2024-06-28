@@ -1,14 +1,18 @@
 // app/api/nsfw/route.js
 import { NextResponse } from "next/server";
 import axios from "axios";
-
-export async function POST(req) {
-  const { img, key } = await req.json();
-
+import { auth } from "@/auth";
+import prisma from "@/prisma";
+export async function GET(req) {
+  const { id } = params;
   try {
-    
+    const comment = await prisma.comment.findUnique({
+      where: {
+        postId: id,
+      },
+    });
 
-    // return NextResponse.json(response.data);
+    return NextResponse.json(comment);
   } catch (error) {
     return NextResponse.json(
       {
