@@ -5,11 +5,9 @@ import moment from "moment";
 import Link from "next/link";
 import { ThreeDots } from "react-loader-spinner";
 import { BiChevronRight } from "react-icons/bi";
-import { CldUploadWidget } from "next-cloudinary";
 import toast from "react-hot-toast";
 import Loader from "@/components/loader";
 import { allPosts } from "../../../.contentlayer/generated/index.mjs";
-import Post from "./Post";
 const CommentData = [
   {
     id: 4565483929237,

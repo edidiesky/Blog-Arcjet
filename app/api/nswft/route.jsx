@@ -6,17 +6,9 @@ export async function POST(req) {
   const { img, key } = await req.json();
 
   try {
-    const response = await axios.post(
-      `https://api.pixlab.io/NSFW?key=${key}`,
-      { img, key },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    
 
-    return NextResponse.json(response.data);
+    // return NextResponse.json(response.data);
   } catch (error) {
     return NextResponse.json(
       {
