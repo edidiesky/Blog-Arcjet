@@ -3,7 +3,11 @@ import {withContentlayer} from 'next-contentlayer'
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["res.cloudinary.com", "generated.vusercontent.net/"],
+    domains: [
+      "res.cloudinary.com",
+      "generated.vusercontent.net/",
+      "avatars.githubusercontent.com",
+    ],
     formats: ["image/avif", "image/webp"],
   },
   webpack: (config) => {
@@ -20,7 +24,7 @@ const nextConfig = {
   },
   compiler: {
     styledComponents: true,
-  }
+  },
 };
 
 export default withContentlayer(nextConfig);

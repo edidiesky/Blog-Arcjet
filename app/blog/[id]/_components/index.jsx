@@ -1,7 +1,8 @@
 "use client";
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
-import { BlogData } from "@/utils/data/blogdata";
+import axios from "axios";
+import toast from "react-hot-toast";
 import { allPosts } from "@/.contentlayer/generated/index.mjs";
 
 const CommentData = [
@@ -32,8 +33,53 @@ const MainContent = ({ blogid }) => {
   const blog = allPosts?.find(
     (blog) => blog._raw.flattenedPath === decodeURIComponent(blogid)
   );
+  const [body, setBody] = useState("");
+  const [comment, setComment] = useState([]);
+  // const [comment, setComment] = useState([]);
+  const [loading, setLoading] = useState(false);
   // console.log(blog);
+  const handleCreateComment = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post("/api/comment", {
+        body: body,
+        postId: decodeURIComponent(blogid),
+      });
+      setBody("");
+      setLoading(false);
+      toast.success("Comment successfully created");
+      // setComment(data);
+    } catch (error) {
+      toast.error(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      );
+    }
+  };
+  const path = `/api/comment?query=${decodeURIComponent(blogid)}`;
+  // console.log(comment)
 
+  useEffect(() => {
+    const getAllComment = async () => {
+      try {
+        setLoading(true);
+        const { data } = await axios.get(
+          `${path}`
+        );
+        setBody("");
+        setLoading(false);
+        setComment(data);
+      } catch (error) {
+        toast.error(
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        );
+      }
+    };
+    getAllComment();
+  }, [setComment, setLoading]);
   return (
     <div className="flex flex-col relative w-full gap-4">
       {/* {loading && <Loader />} */}
@@ -51,7 +97,7 @@ const MainContent = ({ blogid }) => {
               </div>
               <div className="flex w-full py-8 flex-col gap-8">
                 <div className="flex flex-col gap-4">
-                  <h3 className="text-3xl md:text-5xl font-bold">
+                  <h3 className="text-2xl md:text-4xl font-bold">
                     {blog?.title}
                   </h3>
                   <h5 className="text-lg flex items-center gap-4 font-semibold">
@@ -108,21 +154,21 @@ const MainContent = ({ blogid }) => {
                     <div className="flex w-full py-8 flex-col gap-4">
                       <h4 className="text-4xl font-bold">Comments</h4>
                       <div className="w-full lg flex flex-col gap-4">
-                        {CommentData?.map((data, index) => {
+                        {comment?.map((data, index) => {
                           return (
                             <div
                               key={index}
                               className="w-full flex items-center gap-4"
                             >
                               <img
-                                src="https://generated.vusercontent.net/placeholder.svg"
+                                src={data?.userimage}
                                 alt=""
                                 className="object-cover h-[60px] w-[60px] rounded-full"
                               />
                               <h4 className="w-full text-lg font-bold">
-                                {data?.author}
+                                {data?.username}
                                 <span className="block text-sm text-grey font-normal">
-                                  {data?.shortDescription}
+                                  {data?.body}
                                 </span>
                               </h4>
                             </div>
@@ -133,26 +179,15 @@ const MainContent = ({ blogid }) => {
                     <div className="flex w-full flex-col gap-4">
                       <h4 className="text-2xl font-bold">Leave a Comment</h4>
                       <form className="w-full flex flex-col gap-4">
-                        {/* <label
-                        htmlFor="name"
-                        className="text-lg flex flex-col gap-4 font-semibold"
-                      >
-                        Name
-                        <input type="text" className="input" />
-                      </label>
-                      <label
-                        htmlFor="email"
-                        className="text-lg flex flex-col gap-4 font-semibold"
-                      >
-                        Email
-                        <input type="text" className="input" />
-                      </label> */}
                         <label
                           htmlFor="comment"
                           className="text-lg flex flex-col gap-4 font-semibold"
                         >
                           Comment
                           <textarea
+                            value={body}
+                            name={"body"}
+                            onChange={(e) => setBody(e.target.value)}
                             type="text"
                             className="textarea h-[130px] outline-none"
                           />
@@ -161,7 +196,11 @@ const MainContent = ({ blogid }) => {
                     </div>
                   </div>
                   <div className="flex pt-4">
-                    <button className="btn py-3 px-8 rounded-xl text-white text-lg">
+                    <button
+                      disabled={body === ""}
+                      onClick={handleCreateComment}
+                      className="btn py-3 px-8 rounded-xl text-white text-lg"
+                    >
                       Submit
                     </button>
                   </div>

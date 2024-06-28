@@ -19,7 +19,7 @@ const Navbar = async ({ user }) => {
     },
     {
       text: "Blog",
-      path: "blog",
+      path: "",
     },
     {
       text: "Contact",
