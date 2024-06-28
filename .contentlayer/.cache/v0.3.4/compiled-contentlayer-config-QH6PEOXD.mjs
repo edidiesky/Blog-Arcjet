@@ -11,10 +11,10 @@ var Post = defineDocumentType(() => ({
       required: true
     },
     description: { type: "string" },
-    shortdescription: { type: "string" },
+    shortDescription: { type: "string" },
     image: { type: "string" },
     author: { type: "string" },
-    publishAt: { type: "date" },
+    createdAt: { type: "date" },
     updatedAt: { type: "date" }
   },
   computedFields: {
@@ -31,4 +31,4 @@ var contentlayer_config_default = makeSource({
 export {
   contentlayer_config_default as default
 };
-//# sourceMappingURL=compiled-contentlayer-config-FGTJDU3M.mjs.map
+//# sourceMappingURL=compiled-contentlayer-config-QH6PEOXD.mjs.map

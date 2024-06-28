@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useCallback } from "react";
-import Image from "next/image";
+import moment from "moment";
 import { BlogData } from "@/utils/data/blogdata";
+import { allPosts } from "@/.contentlayer/generated/index.mjs";
 
 const CommentData = [
   {
@@ -27,8 +28,10 @@ const CommentData = [
   },
 ];
 const MainContent = ({ blogid }) => {
-  // console.log(blogid);
-  const blog = BlogData?.find((blog) => blog.id === blogid);
+  // console.log(decodeURIComponent(blogid));
+  const blog = allPosts?.find(
+    (blog) => blog._raw.flattenedPath === decodeURIComponent(blogid)
+  );
   // console.log(blog);
 
   return (
@@ -43,7 +46,7 @@ const MainContent = ({ blogid }) => {
                 <img
                   src="https://generated.vusercontent.net/placeholder.svg"
                   alt=""
-                  className="object-cover h-[430px] w-full"
+                  className="object-cover h-[300px] md:h-[430px] w-full"
                 />
               </div>
               <div className="flex w-full py-8 flex-col gap-8">
@@ -53,17 +56,13 @@ const MainContent = ({ blogid }) => {
                   </h3>
                   <h5 className="text-lg flex items-center gap-4 font-semibold">
                     <span>by {blog?.author} </span>
-                    <span>{blog?.createdAt}</span>
+                    <span>{moment(blog?.createdAt).format("DD MMM YYYY")}</span>
                   </h5>
                   <p className="text-lg font-semibold">
                     {blog?.shortDescription}
                   </p>
                 </div>
-                {/* 8BC9F6
-                <h5 className="text-lg text-[#3B82F6] flex items-center gap-2 font-bold">
-                  Read More <BiChevronRight fontSize={"20px"} />
-                </h5> */}
-                <div className="w-full flex flex-col gap-4">
+                {/* <div className="w-full flex flex-col gap-4">
                   <div className="flex w-full flex-col gap-4">
                     <h4 className="text-2xl font-bold">
                       Reduce, Reuse, Recycle
@@ -100,7 +99,7 @@ const MainContent = ({ blogid }) => {
                       vehicle to reduce your carbon emissions.
                     </h5>
                   </div>
-                </div>
+                </div> */}
 
                 {/* comment section */}
                 <div className="w-full flex flex-col gap-4">
@@ -108,19 +107,19 @@ const MainContent = ({ blogid }) => {
                     {/* single posts */}
                     <div className="flex w-full py-8 flex-col gap-4">
                       <h4 className="text-4xl font-bold">Comments</h4>
-                      <div className="w-full md:w-[600px] flex flex-col gap-4">
+                      <div className="w-full lg flex flex-col gap-4">
                         {CommentData?.map((data, index) => {
                           return (
                             <div
                               key={index}
-                              className="flex items-center gap-4"
+                              className="w-full flex items-center gap-4"
                             >
                               <img
                                 src="https://generated.vusercontent.net/placeholder.svg"
                                 alt=""
                                 className="object-cover h-[60px] w-[60px] rounded-full"
                               />
-                              <h4 className="text-lg font-bold">
+                              <h4 className="w-full text-lg font-bold">
                                 {data?.author}
                                 <span className="block text-sm text-grey font-normal">
                                   {data?.shortDescription}

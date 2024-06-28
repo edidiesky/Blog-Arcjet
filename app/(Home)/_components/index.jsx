@@ -1,14 +1,13 @@
 "use client";
 import React, { useState, useCallback } from "react";
 import Image from "next/image";
-import axios from "axios";
+import moment from "moment";
 import Link from "next/link";
 import { ThreeDots } from "react-loader-spinner";
 import { BiChevronRight } from "react-icons/bi";
 import { CldUploadWidget } from "next-cloudinary";
 import toast from "react-hot-toast";
 import Loader from "@/components/loader";
-import { BlogData } from "@/utils/data/blogdata";
 import { allPosts } from "../../../.contentlayer/generated/index.mjs";
 import Post from "./Post";
 const CommentData = [
@@ -35,7 +34,7 @@ const CommentData = [
   },
 ];
 const MainContent = () => {
-  console.log(allPosts);
+  // console.log(allPosts);
 
   return (
     <div className="flex flex-col relative w-full gap-4">
@@ -107,7 +106,7 @@ const MainContent = () => {
                 </p>
                 {/* 8BC9F6 */}
                 <Link
-                  href={`/blog/${BlogData[0].id}`}
+                  href={`/blog/${allPosts[0]?.url_path}`}
                   className="text-lg text-[#3B82F6] flex items-center gap-2 font-bold"
                 >
                   Read More <BiChevronRight fontSize={"20px"} />
@@ -120,11 +119,11 @@ const MainContent = () => {
         {/* posts */}
         <div className="w-full flex items-center justify-center bg-[#fff] py-12">
           <div className="w-[90%] max-w-custom_1 grid lg:grid-cols-3 gap-8 justify-center mx-auto">
-           <Post/>
-            {BlogData?.slice(0, 3)?.map((blog, index) => {
+            {/* <Post/> */}
+            {allPosts?.map((blog, index) => {
               return (
                 <Link
-                  href={`/blog/${blog?.id}`}
+                  href={`/blog/${blog?.url_path}`}
                   key={index}
                   className="w-full border overflow-hidden rounded-[10px] flex flex-col gap-4"
                 >
@@ -139,7 +138,9 @@ const MainContent = () => {
                     <h3 className="text-2xl font-bold">{blog?.title}</h3>
                     <h5 className="text-sm md:text-base flex items-center gap-3 md:gap-4 font-semibold">
                       <span>by {blog?.author} </span>
-                      <span>{blog?.createdAt}</span>
+                      <span>
+                        {moment(blog?.createdAt).format("DD MMM YYYY")}
+                      </span>
                     </h5>
                     <p className="text-base font-semibold">
                       {blog?.shortDescription}
@@ -169,17 +170,14 @@ const MainContent = () => {
               <div className="flex w-full p-4 md:p-8 flex-col gap-8">
                 <div className="flex flex-col gap-4">
                   <h3 className="text-3xl lg:text-5xl font-bold">
-                    Sustainable Living: Tips for a Greener Lifestyle
+                    {allPosts[0]?.title}
                   </h3>
                   <h5 className="text-lg flex items-center gap-4 font-semibold">
-                    <span>by John Doe </span>
-                    <span>May 1, 2023</span>
+                    <span>by {allPosts[0]?.author}</span>
+                    <span> {moment(allPosts[0]?.createdAt).format('DD MMM YYYY')}</span>
                   </h5>
                   <p className="text-lg font-semibold">
-                    In this blog post, we&apos;ll explore practical ways to
-                    incorporate sustainable practices into your daily life, from
-                    reducing waste to adopting eco-friendly habits. Join us on
-                    this journey towards a more sustainable future.
+                           {allPosts[0]?.shortdescription}
                   </p>
                 </div>
                 {/* 8BC9F6
@@ -270,7 +268,7 @@ const MainContent = () => {
                     <div className="w-full lg:w-[600px] flex flex-col gap-4">
                       {CommentData?.map((data, index) => {
                         return (
-                          <div key={index} className="flex items-center gap-4">
+                          <div key={index} className="w-full flex items-center gap-4">
                             <img
                               src="https://generated.vusercontent.net/placeholder.svg"
                               alt=""

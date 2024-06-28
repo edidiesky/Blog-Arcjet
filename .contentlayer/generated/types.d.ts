@@ -16,10 +16,10 @@ export type Post = {
   /** The title of the post */
   title: string
   description?: string | undefined
-  shortdescription?: string | undefined
+  shortDescription?: string | undefined
   image?: string | undefined
   author?: string | undefined
-  publishAt?: IsoDateTimeString | undefined
+  createdAt?: IsoDateTimeString | undefined
   updatedAt?: IsoDateTimeString | undefined
   /** MDX file body */
   body: MDX
