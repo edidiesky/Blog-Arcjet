@@ -16,6 +16,7 @@ export type Post = {
   /** The title of the post */
   title: string
   description?: string | undefined
+  shortdescription?: string | undefined
   image?: string | undefined
   author?: string | undefined
   publishAt?: IsoDateTimeString | undefined

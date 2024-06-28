@@ -11,6 +11,7 @@ var Post = defineDocumentType(() => ({
       required: true
     },
     description: { type: "string" },
+    shortdescription: { type: "string" },
     image: { type: "string" },
     author: { type: "string" },
     publishAt: { type: "date" },
@@ -30,4 +31,4 @@ var contentlayer_config_default = makeSource({
 export {
   contentlayer_config_default as default
 };
-//# sourceMappingURL=compiled-contentlayer-config-UTKGCJNF.mjs.map
+//# sourceMappingURL=compiled-contentlayer-config-FGTJDU3M.mjs.map

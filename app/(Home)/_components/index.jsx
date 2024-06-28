@@ -9,6 +9,7 @@ import { CldUploadWidget } from "next-cloudinary";
 import toast from "react-hot-toast";
 import Loader from "@/components/loader";
 import { BlogData } from "@/utils/data/blogdata";
+import { allPosts } from "../../../.contentlayer/generated/index.mjs";
 import Post from "./Post";
 const CommentData = [
   {
@@ -34,37 +35,7 @@ const CommentData = [
   },
 ];
 const MainContent = () => {
-  const [image, setImage] = useState("");
-  const [result, setResult] = useState(null);
-  const [loading, setLoading] = useState(false);
-  // let loading = false;
-  // const tempKey = "74389de25cb37a10adf615e8a79c8da4";
-  // const handleUpload = useCallback(
-  //   (result) => {
-  //     setImage(result.info?.secure_url);
-  //   },
-  //   [setImage]
-  // );
-
-  // const handleTextImage = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const { data } = await axios.post("/api/nswft", {
-  //       img: image,
-  //       key: tempKey,
-  //     });
-  //     setResult(data);
-  //     toast.success("Image test successfull!!");
-  //     setLoading(false);
-  //   } catch (error) {
-  //     setLoading(false);
-  //     toast.error(
-  //       error.response && error.response.data.message
-  //         ? error.response.data.message
-  //         : error.message
-  //     );
-  //   }
-  // };
+  console.log(allPosts);
 
   return (
     <div className="flex flex-col relative w-full gap-4">
