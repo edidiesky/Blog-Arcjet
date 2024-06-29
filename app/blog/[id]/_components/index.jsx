@@ -151,15 +151,22 @@ const MainContent = ({ blogid }) => {
                                   alt=""
                                   className="object-cover h-[60px] w-[60px] rounded-full"
                                 />
-                                <h4 className="w-full text-lg font-bold">
-                                  {data?.username}
-                                  <span className="block text-sm md:text-base text-grey font-normal">
-                                    {data?.body}
-                                  </span>
-                                </h4>
-                                <span className="text-sm font-bold font-booking_font">
-                                  {moment(data?.createdAt).format('DD MMM YYYY')}
-                                </span>
+                                <div className="flex-1 flex items-center gap-4">
+                                  <h4 className="w-full text-lg font-bold">
+                                    <span className="flex items-center gap-4">
+                                      {" "}
+                                      {data?.username}
+                                      <span className="text-xs font-bold font-booking_font">
+                                        {moment(data?.createdAt).format(
+                                          "DD MMM YYYY"
+                                        )}
+                                      </span>
+                                    </span>
+                                    <span className="block text-sm md:text-base text-grey font-normal">
+                                      {data?.body}
+                                    </span>
+                                  </h4>
+                                </div>
                               </div>
                             );
                           })}
