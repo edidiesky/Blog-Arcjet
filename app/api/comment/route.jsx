@@ -82,7 +82,7 @@ export async function POST(req) {
          {
            message: error.response?.data?.message || error.message,
          },
-         { status: error.response?.status || 500 }
+         { status: error.response?  .status || 500 }
        );
      }
 
