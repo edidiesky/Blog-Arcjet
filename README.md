@@ -41,14 +41,15 @@ export { auth as middleware } from "@/auth";
 
 ## DEVELOPING OF PRISMA SCHEMA AND NEXT API HANDLER FOR COMMENT SYSTEM
 
-
 So we need to make use of prisma, which is an ORM tool for interacting with our data-base which is MONGO-DB. So the first steps, is installing the prisma packages
 
 ```json
 npm i @next-auth/prisma-adapter primsa @prisma/client --legacy-peer-deps
 
 ```
-### prisma schema
+
+### Developing of the prisma schema
+
 After installing the prisma dependencies in our project, We move onto creating the prisma schema which models the structure of our comment system:
 
 ```json
@@ -72,182 +73,109 @@ model Comment {
 
 ```
 
-### Testing the image using PIXLAB API.
+### Developing of next-api route handler
 
-```http
-  POST /api/nsfw
-```
+So since the prisma has been developed, we move onto the next action step which is basically creating route handlers for taking request and sending responses back to the client.
 
-| Parameter | Type     | Description                         |
-| :-------- | :------- | :---------------------------------- |
-| `img`     | `string` | **Required**.User's inputed image   |
-| `key`     | `string` | **Required**. Key form PIXLAB's api |
+#### Setting up arcjet and post handler
 
-**Response:**
-
-- Status: 200 OK
-- Body:
-  ```json
-  {
-    "data": {
-      "status": "pixLab_status",
-      "score": "pixlab_score"
-    }
-  }
-  ```
-
-### Example Request
-
-```http
-POST /api/nsfw
-Content-Type: application/json
-
-{
-  "img": "user's_image",
-  "key": "pxi_lab_key",
-}
-
-```
-
-## DEVELOPING THE CLIENT SIDE SECTION
-
-### Initializing States
-
-**States:**
+So we set up the Arcjet config to rate limit the request comment send form the client section of the next app
 
 ```json
-const [image, setImage] = useState("");
-const [result, setResult] = useState(null);
-const [loading, setLoading] = useState(false);
+import { NextResponse } from "next/server";
+import prisma from "@/prisma";
+import { auth } from "@/auth";
+import arcjet, { tokenBucket } from "@arcjet/next";
+
+const aj = arcjet({
+  key: process.env.ARCJET_KEY,
+  rules: [
+    // Create a token bucket rate limit. Other algorithms are supported.
+    tokenBucket({
+      mode: "LIVE", // will block requests. Use "DRY_RUN" to log only
+      characteristics: ["userId"], // Rate limit based on the Clerk userId
+      refillRate: 1, // refill 1 tokens per interval
+      interval: 60, // refill every 60 seconds
+      capacity: 1, // bucket maximum capacity of 1 tokens
+    }),
+  ],
+});
 ```
 
-### Uploading images use of next-cloudinary
+So after stting up the arcjet config, We need to check out for the user session and also get the request body parameters sent form the client section of the next app. So we check to see first and essentially if the session exists. If it does not exist we send a nextresponse with the intended message. Then we set a condition demanding to see if the session exist if it do, we instantiate a variable called "useId". So the next step is to check of the session.user.id parameter exist cause most times nextauth do not give access to the user id it is only database that do that. So if it exists we set the userId to the session.use.id else we also cehck if the session contains an email. We then instantiate the userId to session.user?.email else if the session does not exist we send a nextresponse. Arcjet performs a decision for the user to see how many times the user has sent a request. if a bad decision is enciunterd to sends a nextreponse with the intended message. Aldo if no bad decision we create a comment for the usr taking the following parameters:
 
-```
-**next-cloudinary:**
-<CldUploadWidget
-multiple
-onSuccess={handleUpload}
-uploadPreset="dl93zl9fn"
-folder="uploads"
-sources={["local", "url", "camera"]} >
-{({ open }) => {
-return (
-<div
-className="w-full cursor-pointer border-dotted px-4 md:px-8 border-4 border-[rgba(0,0,0,.2)] h-[250px] flex flex-col gap-4 items-center justify-center
-"
-onClick={() => open()} >
-<CiImageOn fontSize={"38px"} />
-<span className="text-sm text-center">
-Upload a fileNo file chosen or drag and drop PNG, JPG,
-GIF up to 10MB
-</span>
-</div>
-);
-}}
-</CldUploadWidget>
-
-```
-
-### Interacting with Nextjs server
-
-**Logic:**
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `body`    | `string` | **Required**.User inputed comment |
+| `postId`  | `string` | **Required**. post id             |
 
 ```json
-  const tempKey = "74389de25cb37a10adf615e8a79c8da4";
-  const handleTextImage = async () => {
-    setLoading(true);
+
     try {
-      const { data } = await axios.post("/api/nswft", {
-        img: image,
-        key: tempKey,
-      });
-      setResult(data);
-      toast.success("Image test successfull!!");
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      toast.error(
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message
-      );
-    }
-  };
+       if (!session) {
+         return NextResponse.json(
+           { message: "You are not allowed to perform this action" },
+           { status: 401 }
+         );
+       }
 
+       if (session) {
+         // console.log("User:", session.user);
+
+         // If there is a user ID then use it, otherwise use the email
+         let userId;
+         if (session.user?.id) {
+           userId = session.user.id;
+         } else if (session.user?.email) {
+           // A very simple hash to avoid sending PII to Arcjet. You may wish to add a
+           // unique salt prefix to protect against reverse lookups.
+           const email = session.user?.email;
+           const emailHash = require("crypto")
+             .createHash("sha256")
+             .update(email)
+             .digest("hex");
+
+           userId = emailHash;
+         } else {
+           return Response.json({ message: "Unauthorized" }, { status: 401 });
+         }
+
+         // Deduct 5 tokens from the token bucket
+         const decision = await aj.protect(req, { userId, requested: 1 });
+         // console.log("Arcjet Decision:", decision);
+
+         if (decision.isDenied()) {
+           return Response.json(
+             {
+               message: "Too Many Requests",
+               reason: decision.reason,
+             },
+             {
+               status: 429,
+             }
+           );
+         }
+         // message creation handler
+
+         const comment = await prisma.comment.create({
+           data: {
+             body,
+             postId,
+             username: session?.user?.name,
+             userimage: session?.user?.image,
+           },
+         });
+
+         return NextResponse.json(comment);
+       }
+     } catch (error) {
+       return NextResponse.json(
+         {
+           message: error.response?.data?.message || error.message,
+         },
+         { status: error.response?.status || 500 }
+       );
+     }
 ```
 
-### Setting up the Logic
 
-We make use of tenary operators in checking for conditions in rendering of the images.
-
-So in the first line we are saying that if the state (image) is empty and also the result form the server is not defined we should render the div. This div is also conditioned to check if the score response from the server is 1. If it is 1, then we should display the image without blurring it else we should just blur the image. Else in all of this, we should just return th image when it has not yet being sent to the server
-
-```json
-    {image !== "" && result ? (
-            <div className="w-full">
-              {result?.score === 1 ? (
-                <Image
-                  alt="Cotion"
-                  width={0}
-                  sizes="100vw"
-                  height={0}
-                  loading="lazy"
-                  src={image}
-                  // blurDataURL={image | ""}
-                  className="h-[250px] w-full md:mx-auto object-cover"
-                />
-              ) : (
-                <Image
-                  alt="Cotion"
-                  width={0}
-                  sizes="100vw"
-                  height={0}
-                  loading="lazy"
-                  style={{ filter: "blur(10px" }}
-                  src={image}
-                  className="h-[250px] w-full md:mx-auto object-cover"
-                />
-              )}
-            </div>
-          ) : (
-            <>
-              {image ? (
-                <Image
-                  alt="Cotion"
-                  width={0}
-                  sizes="100vw"
-                  height={0}
-                  loading="lazy"
-                  src={image}
-                  // blurDataURL={image | ""}
-                  className="h-[250px] w-full md:mx-auto object-cover"
-                />
-              ) : (
-                <CldUploadWidget
-                  multiple
-                  onSuccess={handleUpload}
-                  uploadPreset="dl93zl9fn"
-                  folder="uploads"
-                  sources={["local", "url", "camera"]}
-                >
-                  {({ open }) => {
-                    return (
-                      <div
-                        className="w-full cursor-pointer border-dotted px-4  md:px-8 border-4 border-[rgba(0,0,0,.2)] h-[250px] flex flex-col gap-4 items-center justify-center
-          "
-                        onClick={() => open()}
-                      >
-                        <CiImageOn fontSize={"38px"} />
-                        <span className="text-sm text-center">
-                          Upload a fileNo file chosen or drag and drop PNG, JPG,
-                          GIF up to 10MB
-                        </span>
-                      </div>
-                    );
-                  }}
-                </CldUploadWidget>
-              )}
-            </>
-          )}
-```
