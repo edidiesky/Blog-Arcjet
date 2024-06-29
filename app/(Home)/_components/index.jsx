@@ -12,8 +12,6 @@ const MainContent = () => {
   const [comment, setComment] = useState([]);
   const [loading, setLoading] = useState(false);
   const [commentisloading, setCommentIsLoading] = useState(false);
-  // console.log(blog);
-
   const handleCreateComment = async () => {
     try {
       setLoading(true);
