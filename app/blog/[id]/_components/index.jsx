@@ -27,6 +27,7 @@ const MainContent = ({ blogid }) => {
       setLoading(false);
       toast.success("Comment successfully created");
       // setComment(data);
+      setComment([data, ...comment]);
     } catch (error) {
       setBody("");
       setLoading(false);
@@ -194,7 +195,7 @@ const MainContent = ({ blogid }) => {
                   </div>
                   <div className="flex pt-4">
                     <button
-                      disabled={body === ""}
+                      disabled={body === "" || loading}
                       onClick={handleCreateComment}
                       className="btn py-3 px-8 rounded-xl text-white text-lg"
                     >

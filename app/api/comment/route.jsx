@@ -12,8 +12,8 @@ const aj = arcjet({
       mode: "LIVE", // will block requests. Use "DRY_RUN" to log only
       characteristics: ["userId"], // Rate limit based on the Clerk userId
       refillRate: 1, // refill 1 tokens per interval
-      interval: 60, // refill every 20 seconds
-      capacity: 2, // bucket maximum capacity of 2 tokens
+      interval: 60, // refill every 60 seconds
+      capacity: 1, // bucket maximum capacity of 1 tokens
     }),
   ],
 });
