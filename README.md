@@ -41,13 +41,14 @@ export { auth as middleware } from "@/auth";
 
 ## DEVELOPING OF PRISMA SCHEMA AND NEXT API HANDLER FOR COMMENT SYSTEM
 
+
 So we need to make use of prisma, which is an ORM tool for interacting with our data-base which is MONGO-DB. So the first steps, is installing the prisma packages
 
 ```json
 npm i @next-auth/prisma-adapter primsa @prisma/client --legacy-peer-deps
 
 ```
-
+### prisma schema
 After installing the prisma dependencies in our project, We move onto creating the prisma schema which models the structure of our comment system:
 
 ```json
