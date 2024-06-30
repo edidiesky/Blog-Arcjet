@@ -155,7 +155,7 @@ So after stting up the arcjet config, We need to check out for the user session 
              }
            );
          }
-         // message creation handler
+         // proceed to create user's message
 
          const comment = await prisma.comment.create({
            data: {
