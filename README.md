@@ -1,6 +1,6 @@
 # DEVELOPMENT PROCESS OF ENVITAB BLOG SHOWCASING ARCJET.IO INFLUENCE
 
-Welcome to the demonstration of Building a Secure Next.js Blog with Next-Auth, Fly.io and Arcjet - HackMD hackmd.io
+Welcome to the demonstration of building a Secure Next.js Blog with Next-Auth, Fly.io and Arcjet - HackMD hackmd.io
 
 ## DEVELOPING OF NEXT AUTH
 
